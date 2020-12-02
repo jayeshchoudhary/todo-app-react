@@ -1,0 +1,22 @@
+body {
+  display: flex;
+  justify-content: center;
+}
+
+.container {
+  text-align: center;
+}
+
+.todo {
+  display: flex;
+  align-items: center;
+  justify-content: left;
+}
+
+.todo p {
+  padding-right: 10px;
+}
+
+.remove {
+  margin-left: auto;
+}
