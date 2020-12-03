@@ -3,6 +3,7 @@ import React, { useState } from "react";
 const AddTodo = ({ addTodo }) => {
   const [value, setValue] = useState("");
 
+  // handler onSubmit will call addTodo
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!value) return;
@@ -17,9 +18,11 @@ const AddTodo = ({ addTodo }) => {
         className="input"
         value={value}
         onChange={(e) => setValue(e.target.value)}
-        placeholder="Type Todo.."
+        placeholder="Add Todo..."
       />
-      <button type="submit">Add</button>
+      <button className="todo-btn" type="submit">
+        Add
+      </button>
     </form>
   );
 };
