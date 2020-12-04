@@ -14,7 +14,7 @@ body {
 .todo-list {
   background: lightgray;
   border-radius: 4px;
-  width: 400px;
+  width: 450px;
   padding: 10px;
 }
 
@@ -31,7 +31,10 @@ body {
 }
 
 .todo-btn {
-  padding: 7px 10px;
+  padding: 9px 10px;
+  background-color: lightseagreen;
+  border: 2px solid gray;
+  border-radius: 3px;
 }
 
 .btns button {
@@ -42,29 +45,49 @@ body {
   margin-left: auto;
 }
 
+.btns button {
+  cursor: pointer;
+}
+
 .delete-all-btn {
   background-color: red;
   border: none;
   color: white;
   border-radius: 2px;
   height: 25px;
+  float: left;
+  margin-top: 5px;
+}
+
+.complete-all-btn {
+  background-color: green;
+  border: none;
+  color: white;
+  border-radius: 2px;
+  height: 25px;
+  float: left;
+  margin-top: 5px;
+  margin-left: 10px;
 }
 
 .add-input {
   width: 20px;
-  height: 20px;
+  height: 25px;
   margin-right: 10px;
+  cursor: pointer;
 }
 
 .input {
-  width: 80%;
-  height: 25px;
+  width: 83%;
+  height: 30px;
   margin: 15px 5px;
-  padding: 2px 3px;
+  padding: 2px 5px;
   border-radius: 3px;
   border: 2px solid lightseagreen;
 }
 
 .edit-input input {
   width: 200px;
+  margin-block-start: 1em;
+  margin-block-end: 1em;
 }
