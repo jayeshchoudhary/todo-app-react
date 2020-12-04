@@ -5,6 +5,7 @@ import AddTodo from "./components/AddTodo";
 import Header from "./components/Header";
 import DeleteAllTodos from "./components/DeleteAllTodos";
 import CompleteAllTodos from "./components/CompleteAllTodos";
+import { DragDropContext, Droppable } from "react-beautiful-dnd";
 
 function App() {
   // Todo State
@@ -43,16 +44,16 @@ function App() {
   };
 
   // handler to toggle todo.isComplete
-  const completeTodo = (index) => {
+  const completeTodo = (i) => {
     const newTodos = [...todos];
-    newTodos[index].isCompleted = !newTodos[index].isCompleted;
+    newTodos[i].isCompleted = !newTodos[i].isCompleted;
     setTodos(newTodos);
   };
 
   // handler to remove todo
-  const removeTodo = (index) => {
+  const removeTodo = (i) => {
     const newTodos = [...todos];
-    newTodos.splice(index, 1);
+    newTodos.splice(i, 1);
     setTodos(newTodos);
   };
 
@@ -65,25 +66,46 @@ function App() {
   };
 
   // handler to edit todo
-  const editTodo = (index, newText) => {
+  const editTodo = (i, newText) => {
     const newTodos = [...todos];
-    newTodos[index].text = newText;
+    newTodos[i].text = newText;
     setTodos(newTodos);
   };
 
   // handler to check todo
-  const checkTodo = (index) => {
+  const checkTodo = (i) => {
     const newTodos = [...todos];
-    newTodos[index].isChecked = !newTodos[index].isChecked;
+    newTodos[i].isChecked = !newTodos[i].isChecked;
     setTodos(newTodos);
   };
 
   // handler to completeAll todo
   const completeAllTodos = () => {
-    todos.map((todo, index) => {
-      return todo.isChecked ? (completeTodo(index), checkTodo(index)) : null;
+    todos.map((todo, i) => {
+      return todo.isChecked ? (completeTodo(i), checkTodo(i)) : null;
     });
-    // setTodos(newTodos);
+  };
+
+  // const onDragEnd = (result) => {
+  //   const { destination, source, draggableId } = result;
+  //   if (!destination) {
+  //     return;
+  //   }
+  //   if (
+  //     destination.droppableId === source.droppableId &&
+  //     destination.index === source.index
+  //   ) {
+  //     return;
+  //   }
+  // };
+
+  const onDragEnd = (result) => {
+    const items = Array.from(todos);
+    const [reorderedItem] = items.splice(result.source.index, 1);
+    items.splice(result.destination.index, 0, reorderedItem);
+
+    setTodos(items);
+    // console.log(result);
   };
 
   return (
@@ -91,17 +113,32 @@ function App() {
       <Header />
       <div className="todo-list">
         <AddTodo addTodo={addTodo} />
-        {todos.map((todo, index) => (
-          <Todo
-            key={index}
-            index={index}
-            todo={todo}
-            completeTodo={completeTodo}
-            removeTodo={removeTodo}
-            editTodo={editTodo}
-            checkTodo={checkTodo}
-          />
-        ))}
+        <DragDropContext onDragEnd={onDragEnd}>
+          <Droppable droppableId="todoapp">
+            {(provided) => (
+              <div
+                className="todoapp"
+                {...provided.droppableProps}
+                ref={provided.innerRef}
+              >
+                {todos.map((todo, i) => {
+                  return (
+                    <Todo
+                      key={i}
+                      i={i}
+                      todo={todo}
+                      completeTodo={completeTodo}
+                      removeTodo={removeTodo}
+                      editTodo={editTodo}
+                      checkTodo={checkTodo}
+                    />
+                  );
+                })}
+                {provided.placeholder}
+              </div>
+            )}
+          </Droppable>
+        </DragDropContext>
         {todos.filter((todos) => todos.isChecked === true).length > 1 ? (
           <DeleteAllTodos deleteAllTodos={deleteAllTodos} />
         ) : null}

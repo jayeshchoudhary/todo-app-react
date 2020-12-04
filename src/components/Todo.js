@@ -1,14 +1,8 @@
 import React, { useState } from "react";
 import "font-awesome/css/font-awesome.min.css";
+import { Draggable } from "react-beautiful-dnd";
 
-const Todo = ({
-  todo,
-  index,
-  completeTodo,
-  removeTodo,
-  editTodo,
-  checkTodo,
-}) => {
+const Todo = ({ todo, i, completeTodo, removeTodo, editTodo, checkTodo }) => {
   // state for editing todo
   const [editing, setEditing] = useState(false);
   const [text, setText] = useState("");
@@ -20,7 +14,7 @@ const Todo = ({
       setText(todo.text);
     } else {
       setEditing(false);
-      editTodo(index, text);
+      editTodo(i, text);
     }
   };
 
@@ -28,7 +22,7 @@ const Todo = ({
   const handleEnterInput = (e) => {
     if (e.keyCode === 13) {
       setEditing(false);
-      editTodo(index, text);
+      editTodo(i, text);
     }
   };
 
@@ -38,40 +32,46 @@ const Todo = ({
   };
 
   return (
-    <div
-      className="todo"
-      style={{ textDecoration: todo.isCompleted ? "line-through" : "" }}
-    >
-      <input
-        className="add-input"
-        type="checkbox"
-        onChange={() => checkTodo(index)}
-        checked={todo.isChecked}
-      />
-      {editing ? (
-        <div className="edit-input">
+    <Draggable key={i} draggableId={i.toString()} index={i}>
+      {(provided) => (
+        <div
+          className={todo.isCompleted ? "completed todo" : "todo"}
+          ref={provided.innerRef}
+          {...provided.draggableProps}
+          {...provided.dragHandleProps}
+        >
           <input
-            type="text"
-            value={text}
-            onChange={handleInputChange}
-            onKeyDown={handleEnterInput}
+            className="add-input"
+            type="checkbox"
+            onChange={() => checkTodo(i)}
+            checked={todo.isChecked}
           />
+          {editing ? (
+            <div className="edit-input">
+              <input
+                type="text"
+                value={text}
+                onChange={handleInputChange}
+                onKeyDown={handleEnterInput}
+              />
+            </div>
+          ) : (
+            <p>{todo.text}</p>
+          )}
+          <div className="btns">
+            <button className="complete-btn" onClick={() => completeTodo(i)}>
+              <i className="fa fa-check"></i>
+            </button>
+            <button className="remove-btn" onClick={() => removeTodo(i)}>
+              <i className="fa fa-trash"></i>
+            </button>
+            <button className="edit-btn" onClick={handleEdit}>
+              <i className="fa fa-edit"></i>
+            </button>
+          </div>
         </div>
-      ) : (
-        <p>{todo.text}</p>
       )}
-      <div className="btns">
-        <button className="complete-btn" onClick={() => completeTodo(index)}>
-          <i className="fa fa-check"></i>
-        </button>
-        <button className="remove-btn" onClick={() => removeTodo(index)}>
-          <i className="fa fa-trash"></i>
-        </button>
-        <button className="edit-btn" onClick={handleEdit}>
-          <i className="fa fa-edit"></i>
-        </button>
-      </div>
-    </div>
+    </Draggable>
   );
 };
 

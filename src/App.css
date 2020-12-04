@@ -91,3 +91,8 @@ body {
   margin-block-start: 1em;
   margin-block-end: 1em;
 }
+
+.completed {
+  text-decoration: line-through;
+  color: gray;
+}
