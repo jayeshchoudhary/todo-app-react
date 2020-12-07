@@ -86,13 +86,12 @@ function App() {
     });
   };
 
+  // handler for onDragEnd
   const onDragEnd = (result) => {
     const items = Array.from(todos);
     const [reorderedItem] = items.splice(result.source.index, 1);
     items.splice(result.destination.index, 0, reorderedItem);
-
     setTodos(items);
-    // console.log(result);
   };
 
   return (
