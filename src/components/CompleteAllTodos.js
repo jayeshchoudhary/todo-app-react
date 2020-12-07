@@ -1,10 +1,11 @@
+// import { text } from "@fortawesome/fontawesome-svg-core";
 import React from "react";
 
-const CompleteAllTodos = ({ completeAllTodos }) => {
+const CompleteAllTodos = ({ completeAllTodos, actionText }) => {
   return (
     <div>
       <button onClick={completeAllTodos} className="complete-all-btn">
-        Complete All
+        {actionText}
       </button>
     </div>
   );

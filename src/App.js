@@ -86,19 +86,6 @@ function App() {
     });
   };
 
-  // const onDragEnd = (result) => {
-  //   const { destination, source, draggableId } = result;
-  //   if (!destination) {
-  //     return;
-  //   }
-  //   if (
-  //     destination.droppableId === source.droppableId &&
-  //     destination.index === source.index
-  //   ) {
-  //     return;
-  //   }
-  // };
-
   const onDragEnd = (result) => {
     const items = Array.from(todos);
     const [reorderedItem] = items.splice(result.source.index, 1);
@@ -139,11 +126,23 @@ function App() {
             )}
           </Droppable>
         </DragDropContext>
-        {todos.filter((todos) => todos.isChecked === true).length > 1 ? (
+        {todos.filter((todo) => todo.isChecked === true).length > 1 ? (
           <DeleteAllTodos deleteAllTodos={deleteAllTodos} />
         ) : null}
-        {todos.filter((todos) => todos.isChecked === true).length > 1 ? (
-          <CompleteAllTodos completeAllTodos={completeAllTodos} />
+        {todos.filter(
+          (todo) => todo.isChecked === true && todo.isCompleted === true
+        ).length > 1 ? (
+          <CompleteAllTodos
+            completeAllTodos={completeAllTodos}
+            actionText="Incomplete All"
+          />
+        ) : todos.filter(
+            (todo) => todo.isChecked === true && todo.isCompleted === false
+          ).length > 1 ? (
+          <CompleteAllTodos
+            completeAllTodos={completeAllTodos}
+            actionText="Complete All"
+          />
         ) : null}
       </div>
     </div>
