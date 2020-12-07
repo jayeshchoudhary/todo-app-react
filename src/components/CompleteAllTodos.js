@@ -1,4 +1,3 @@
-// import { text } from "@fortawesome/fontawesome-svg-core";
 import React from "react";
 
 const CompleteAllTodos = ({ completeAllTodos, actionText }) => {

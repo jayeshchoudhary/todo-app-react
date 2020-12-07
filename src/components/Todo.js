@@ -53,7 +53,6 @@ const Todo = ({ todo, i, completeTodo, removeTodo, editTodo, checkTodo }) => {
                 value={text}
                 onChange={handleInputChange}
                 onKeyDown={handleEnterInput}
-                autoFocus
               />
             </div>
           ) : (
