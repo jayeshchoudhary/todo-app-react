@@ -88,6 +88,7 @@ function App() {
 
   // handler for onDragEnd
   const onDragEnd = (result) => {
+    if (!result.destination) return;
     const items = Array.from(todos);
     const [reorderedItem] = items.splice(result.source.index, 1);
     items.splice(result.destination.index, 0, reorderedItem);
@@ -126,22 +127,19 @@ function App() {
           </Droppable>
         </DragDropContext>
         {todos.filter((todo) => todo.isChecked === true).length > 1 ? (
-          <DeleteAllTodos deleteAllTodos={deleteAllTodos} />
-        ) : null}
-        {todos.filter(
-          (todo) => todo.isChecked === true && todo.isCompleted === true
-        ).length > 1 ? (
-          <CompleteAllTodos
-            completeAllTodos={completeAllTodos}
-            actionText="Incomplete All"
-          />
-        ) : todos.filter(
-            (todo) => todo.isChecked === true && todo.isCompleted === false
-          ).length > 1 ? (
-          <CompleteAllTodos
-            completeAllTodos={completeAllTodos}
-            actionText="Complete All"
-          />
+          <>
+            <DeleteAllTodos deleteAllTodos={deleteAllTodos} />
+            <CompleteAllTodos
+              completeAllTodos={completeAllTodos}
+              actionText={
+                todos.filter(
+                  (todo) => todo.isChecked === true && todo.isCompleted === true
+                ).length > 1
+                  ? "Incomplete All"
+                  : "Complete All"
+              }
+            />
+          </>
         ) : null}
       </div>
     </div>
